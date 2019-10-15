@@ -7,4 +7,5 @@ import java.util.List;
 public interface DpsService {
 
     List<TblCubeInit> selectFar();
+    List<TblCubeInit> selectLocal();
 }

@@ -2,10 +2,11 @@ server:
   port: 8080
 
 
-local:
-  host: 127.0.0.1
 far:
   host: 103.36.132.28
+local:
+  host: 94.191.10.75
+
 
 #primary
 spring:
@@ -21,14 +22,14 @@ spring:
     datasource:
       jdbc-url: jdbc:mysql://${local.host}:3306/fileparser?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
       username: root
-      password: ssmedia-11
+      password: 159357
       driver-class-name: com.mysql.cj.jdbc.Driver
 
   dpsprimary:
     datasource:
       jdbc-url: jdbc:mysql://${far.host}:3306/dps?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
       username: root
-      password: 159357
+      password: ssmedia-11
       driver-class-name: com.mysql.cj.jdbc.Driver
 
   dpssecondary:

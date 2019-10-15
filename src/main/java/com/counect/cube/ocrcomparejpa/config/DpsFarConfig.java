@@ -39,13 +39,11 @@ public class DpsFarConfig {
     @Qualifier("dpsprimaryDataSource")
     private DataSource primaryDataSource;
 
-    @Primary
     @Bean(name = "entityManagerDpsPrimary")
     public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
         return entityManagerFactoryPrimary(builder).getObject().createEntityManager();
     }
 
-    @Primary
     @Bean(name = "entityManagerFactoryDpsPrimary")
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryPrimary(EntityManagerFactoryBuilder builder) {
         return builder
