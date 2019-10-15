@@ -1,0 +1,48 @@
+server:
+  port: 8089
+
+
+local:
+  host: 127.0.0.1
+far:
+  host: 103.36.132.28
+
+#primary
+spring:
+  primary:
+    datasource:
+      jdbc-url: jdbc:mysql://${far.host}:3306/fileparser?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
+      username: root
+      password: ssmedia-11
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+  #secondary
+  secondary:
+    datasource:
+      jdbc-url: jdbc:mysql://${local.host}:3306/fileparser?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
+      username: root
+      password: ssmedia-11
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+  dpsprimary:
+    datasource:
+      jdbc-url: jdbc:mysql://${far.host}:3306/dps?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
+      username: root
+      password: 159357
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+  dpssecondary:
+    datasource:
+      jdbc-url: jdbc:mysql://${local.host}:3306/dps?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
+      username: root
+      password: 159357
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      primary-dialect: org.hibernate.dialect.MySQL5Dialect
+      secondary-dialect: org.hibernate.dialect.MySQL5Dialect
+    open-in-view: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
