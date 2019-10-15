@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -22,31 +21,31 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "entityManagerFactorySecondary",
-        transactionManagerRef = "transactionManagerSecondary",
-        basePackages = {"com.counect.cube.ocrcomparejpa.repository.daservice.local"})
-public class DaserviceLocalConfig {
+        entityManagerFactoryRef = "entityManagerFactoryDpsSecondary",
+        transactionManagerRef = "transactionManagerDpsSecondary",
+        basePackages = {"com.counect.cube.ocrcomparejpa.repository.dps.local"})
+public class DpsLocalConfig {
     @Autowired
     private JpaProperties jpaProperties;
     @Autowired
     private HibernateProperties hibernateProperties;
 
     @Autowired
-    @Qualifier("secondaryDataSource")
+    @Qualifier("dpssecondaryDataSource")
     private DataSource secondaryDataSource;
 
-    @Bean(name = "entityManagerSecondary")
+    @Bean(name = "entityManagerDpsSecondary")
     public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
         return entityManagerFactorySecondary(builder).getObject().createEntityManager();
     }
 
-    @Bean(name = "entityManagerFactorySecondary")
+    @Bean(name = "entityManagerFactoryDpsSecondary")
     public LocalContainerEntityManagerFactoryBean entityManagerFactorySecondary(EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(secondaryDataSource)
                 .properties(getVendorProperties(secondaryDataSource))
-                .packages("com.counect.cube.ocrcomparejpa.domain.daservice") //设置实体类所在位置
-                .persistenceUnit("secondaryPersistenceUnit")
+                .packages("com.counect.cube.ocrcomparejpa.domain.dps") //设置实体类所在位置
+                .persistenceUnit("DpsSecondaryUnit")
                 .build();
     }
 
@@ -56,7 +55,7 @@ public class DaserviceLocalConfig {
                 jpaProperties.getProperties(), new HibernateSettings());
     }
 
-    @Bean(name = "transactionManagerSecondary")
+    @Bean(name = "transactionManagerDpsSecondary")
     PlatformTransactionManager transactionManagerSecondary(EntityManagerFactoryBuilder builder) {
         return new JpaTransactionManager(entityManagerFactorySecondary(builder).getObject());
     }
