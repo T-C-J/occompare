@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FarCubeConfigRepository extends JpaRepository<CubeConfig,String> {
 
-
+    CubeConfig queryByCubeId(String cubeId);
 
 }

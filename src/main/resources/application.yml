@@ -41,7 +41,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
       primary-dialect: org.hibernate.dialect.MySQL5Dialect
       secondary-dialect: org.hibernate.dialect.MySQL5Dialect
     open-in-view: true

@@ -2,6 +2,7 @@ package com.counect.cube.ocrcomparejpa.domain.daservice;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,7 +16,8 @@ public class ReceiptDefaultValue {
     private Integer id;
     private Integer receipt_type;
 
-    private String cube_id;
+    @Column(name = "cube_id")
+    private String cubeId;
     private String field;
     private String default_type;
     private String parameters;

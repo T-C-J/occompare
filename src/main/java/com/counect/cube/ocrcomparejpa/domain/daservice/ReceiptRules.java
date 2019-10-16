@@ -2,6 +2,7 @@ package com.counect.cube.ocrcomparejpa.domain.daservice;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -18,7 +19,8 @@ public class ReceiptRules {
     private Integer run_sequence;
 
     private String field;
-    private String cube_id;
+    @Column(name = "cube_id")
+    private String cubeId;
     private String match_type;
     private String match_value;
     private String regex;

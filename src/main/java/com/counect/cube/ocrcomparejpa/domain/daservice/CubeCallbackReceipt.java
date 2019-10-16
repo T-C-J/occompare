@@ -1,9 +1,9 @@
 package com.counect.cube.ocrcomparejpa.domain.daservice;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 

@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface DpsService {
 
-    List<TblCubeInit> selectFar();
-    List<TblCubeInit> selectLocal();
+    boolean syncData();
+    boolean syncDataByMsid(String msid);
+
+
+
 }

@@ -2,6 +2,7 @@ package com.counect.cube.ocrcomparejpa.domain.daservice;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,7 +16,8 @@ public class CubeConfig {
 
     @Id
     private String id;
-    private String cube_id;
+    @Column(name = "cube_id")
+    private String cubeId;
     private String file_extension;
     private String data_type;
     private String treat_liner_as_empty;

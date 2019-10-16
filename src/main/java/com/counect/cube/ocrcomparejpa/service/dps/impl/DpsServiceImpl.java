@@ -19,13 +19,19 @@ public class DpsServiceImpl implements DpsService {
 
 
     @Override
-    public List<TblCubeInit> selectFar() {
-
-        return farTblCubeInitRepository.findAll();
+    public boolean syncData() {
+        List<TblCubeInit> tblCubeInits = farTblCubeInitRepository.findAll();
+        localTblCubeInitRepository.saveAll(tblCubeInits);
+        return true;
     }
 
     @Override
-    public List<TblCubeInit> selectLocal() {
-        return localTblCubeInitRepository.findAll();
+    public boolean syncDataByMsid(String msid) {
+        TblCubeInit tblCubeInit = farTblCubeInitRepository.queryBySid(msid);
+        localTblCubeInitRepository.save(tblCubeInit);
+        return true;
     }
+
+
+
 }
