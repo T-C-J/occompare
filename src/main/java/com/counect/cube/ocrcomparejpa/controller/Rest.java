@@ -38,4 +38,9 @@ public class Rest {
     public boolean synchronousData(Set msids){
         return syncDataService.syncDataByMsids(msids);
     }
+
+//    @RequestMapping("syncDataByMsids")
+//    public boolean synchronousData(Set msids){
+//        return syncDataService.syncDataByMsids(msids);
+//    }
 }

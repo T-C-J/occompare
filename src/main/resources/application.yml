@@ -41,9 +41,17 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
       primary-dialect: org.hibernate.dialect.MySQL5Dialect
       secondary-dialect: org.hibernate.dialect.MySQL5Dialect
     open-in-view: true
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+hadoop:
+  local-root-path: F:\hdfsTest\ParserDirs
+  local-root-path2: F:\hdfsTest\ParserDirs
+  far-rootfile-path: /cubedata/NFS_ts2/ParserDir
+  name-node: hdfs://h100:9000
+  namespace: /cubedata/NFS_ts2/ParserDir
+  namespace-root: /cubedata
