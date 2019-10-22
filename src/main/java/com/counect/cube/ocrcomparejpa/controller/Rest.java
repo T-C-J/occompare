@@ -1,9 +1,6 @@
 package com.counect.cube.ocrcomparejpa.controller;
 
 import com.counect.cube.ocrcomparejpa.service.HDFSService;
-import com.counect.cube.ocrcomparejpa.service.SyncDataService;
-import com.counect.cube.ocrcomparejpa.service.daservice.DaserviceService;
-import com.counect.cube.ocrcomparejpa.service.dps.DpsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,51 +13,23 @@ import java.util.Set;
 public class Rest {
 
     @Autowired
-    DpsService dpsService;
-    @Autowired
-    DaserviceService daserviceService;
-    @Autowired
-    SyncDataService syncDataService;
-
-    @Autowired
     HDFSService hdfsService;
 
     @RequestMapping("hello")
-    public String hello(){
-        return "hello";
+    public String Hello(){
+        return"hello";
     }
 
-    @RequestMapping("syncData")
-    public boolean synchronousData(){
-        return syncDataService.syncDataAll();
+    @RequestMapping("init")
+    public Boolean init(){
+        return hdfsService.init();
     }
-
-    @RequestMapping("syncDataByMsid/{msid}")
-    public boolean synchronousData(@PathVariable("msid") String msid){
-        return syncDataService.syncDataByMsid(msid);
+    @RequestMapping("addAll")
+    public Boolean addAllReceipt(){
+        return hdfsService.addAllFileToHDFS();
     }
-
-//    @RequestMapping("syncDataByMsids")
-//    public boolean synchronousData(Set msids){
-//        return syncDataService.syncDataByMsids(msids);
-//    }
-
-
-    @RequestMapping("downlodAllReceipt")
-    public Boolean downlodReceipt(){
-        return hdfsService.getAllFile();
+    @RequestMapping("addByDate/{date}")
+    public Boolean addAllReceipt(@PathVariable("date") String date){
+        return hdfsService.addFileByDateToHDFS(date);
     }
-
-    @RequestMapping("downlodReceipt/{date}")
-    public Boolean downlodReceipts(@PathVariable("date") String  date){
-        return hdfsService.getFileByDate(date);
-    }
-
-
-    @RequestMapping("removeAllReceipt")
-    public boolean removeAllReceipt(){
-        return hdfsService.removeAllFile();
-    }
-
-
 }

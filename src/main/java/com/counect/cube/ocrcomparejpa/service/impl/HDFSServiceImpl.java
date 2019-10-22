@@ -2,7 +2,6 @@ package com.counect.cube.ocrcomparejpa.service.impl;
 
 import com.counect.cube.ocrcomparejpa.service.HDFSService;
 import com.counect.cube.ocrcomparejpa.template.HadoopTemplate;
-import com.counect.cube.ocrcomparejpa.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,11 +19,6 @@ public class HDFSServiceImpl implements HDFSService {
 
     @Autowired
     HadoopTemplate hadoopTemplate;
-    @Value("${hadoop.namespace:/}")
-    private String nameSpace;
-    @Value("${hadoop.namespace-root:/}")
-    private String nameSpaceRoot;
-
 
     @Value("${hadoop.far-rootfile-path}")
     private String farRootFilePath;
@@ -39,42 +33,7 @@ public class HDFSServiceImpl implements HDFSService {
     }
 
     @Override
-    public boolean removeAllFile() {
-        return hadoopTemplate.myDropHdfsPath(nameSpaceRoot);
-    }
-
-    @Override
-    public boolean getFileByDate(String dateStr) {
-        List<String> msDirList = hadoopTemplate.getMSDirList(nameSpace);
-        for (String path : msDirList){
-            String[] strs = path.split("/");
-            String msid = strs[strs.length -1];
-            String msidPath = FileUtils.createDir(localRootFilePath, msid);
-            List<String> msDirList1 = hadoopTemplate.getDateDirList(path);
-            for (String date : msDirList1){
-                if(date.contains(dateStr)){
-                    String[] strs2 = date.split("/");
-                    String dat = strs2[strs2.length -1];
-                    String dir = FileUtils.createDir(msidPath, dat);
-                    hadoopTemplate.getFile(date,dir);
-//                    log.info("下载 " +msid + "日期为 : " + dateStr +"的水单成功");
-                }
-            }
-        }
-        FileUtils.clearErrorFile();
-        return true;
-    }
-
-    @Override
-    public boolean getAllFile() {
-        hadoopTemplate.getFile(farRootFilePath,localRootFilePath);
-        FileUtils.clearErrorFile();
-        return true;
-    }
-
-    @Override
     public boolean addFileByDateToHDFS(String dateStr) {
-
         File file = new File(localRootFilePath);
 
         File[] files = file.listFiles();
@@ -105,13 +64,7 @@ public class HDFSServiceImpl implements HDFSService {
     }
 
     @Override
-    public boolean addFileToHDFS(String filePath) {
-        return false;
-    }
-
-    @Override
     public boolean addAllFileToHDFS() {
-
         File file = new File(localRootFilePath);
         File[] files = file.listFiles();
         for (File file1: files){
@@ -120,7 +73,7 @@ public class HDFSServiceImpl implements HDFSService {
                 hadoopTemplate.existDir(farRootFilePath + "/" + msid,true);
 //                log.info("create path "+ farRootFilePath + "/" + msid);
                 Iterator<File> iterator = Arrays.stream(file1.listFiles())
-                        .filter(file2 -> (file2.isDirectory() && file2.getName().contains("-") && Integer.valueOf(file2.getName().replaceAll("-",""))>20191016))
+                        .filter(file2 -> (file2.isDirectory() && file2.getName().contains("-") && Integer.valueOf(file2.getName().replaceAll("-",""))>20191010))
                         .iterator();
                 while (iterator.hasNext()){
                     File datFile = iterator.next();
@@ -136,6 +89,5 @@ public class HDFSServiceImpl implements HDFSService {
         }
         return true;
     }
-
 
 }

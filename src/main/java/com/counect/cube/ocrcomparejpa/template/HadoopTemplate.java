@@ -1,6 +1,5 @@
 package com.counect.cube.ocrcomparejpa.template;
 
-import com.counect.cube.ocrcomparejpa.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.fs.FileStatus;
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -86,7 +84,6 @@ public class HadoopTemplate {
                 flag = true;
             }
         }catch (Exception e){
-            log.error("", e);
         }
         return flag;
     }
@@ -118,7 +115,6 @@ public class HadoopTemplate {
             //释放资源
             //    fileSystem.close();
         } catch (IOException e) {
-            log.error("", e);
         }
     }
 
@@ -140,7 +136,6 @@ public class HadoopTemplate {
             // 删除文件或者文件目录  delete(Path f) 此方法已经弃用
             fileSystem.delete(new Path(path),true);
         } catch (IllegalArgumentException | IOException e) {
-            log.error("", e);
         }
     }
 
@@ -157,7 +152,6 @@ public class HadoopTemplate {
         }
         Path hdfsPath = new Path(hdfsFile);
         Path dstPath = new Path(destPath);
-        FileUtils.clearDir(new File(destPath));
         try {
             // 下载hdfs上的文件
 
@@ -165,7 +159,6 @@ public class HadoopTemplate {
             // 释放资源
             // fs.close();
         } catch (IOException e) {
-            log.error("", e);
         }
     }
 
@@ -221,7 +214,6 @@ public class HadoopTemplate {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            log.error(""+e);
         }
         return set;
     }
@@ -302,7 +294,6 @@ public class HadoopTemplate {
             b = fileSystem.delete(path,true);
         } catch (IOException e) {
             e.printStackTrace();
-            log.error(""+e);
         }
         return b;
     }

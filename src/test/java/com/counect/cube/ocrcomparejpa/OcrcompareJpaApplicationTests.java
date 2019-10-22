@@ -2,7 +2,6 @@ package com.counect.cube.ocrcomparejpa;
 
 import com.counect.cube.ocrcomparejpa.service.HDFSService;
 import com.counect.cube.ocrcomparejpa.template.HadoopTemplate;
-import com.counect.cube.ocrcomparejpa.utils.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class OcrcompareJpaApplicationTests {
 
     @Test
     public void contextLoads() {
-        hdfsService.removeAllFile();
+//        hdfsService.removeAllFile();
 //        hadoopTemplate.uploadFile("F:\\hdfsTest\\ParserDir\\ms017000901\\2018-03-22\\000042137t0001_2018-03-22T10-22-17.bmp");
     }
 
@@ -36,7 +35,6 @@ public class OcrcompareJpaApplicationTests {
 
     @Test
     public void contextLoads3() {
-        hdfsService.getFileByDate("2018-03-22");
 //        hdfsService.addFileByDateToHDFS("2018-03-22");
 
     }
@@ -47,14 +45,14 @@ public class OcrcompareJpaApplicationTests {
 
     }
 
-    @Test
-    public void contextLoads5() {
-        FileUtils.clearErrorFile();
-    }
+//    @Test
+//    public void contextLoads5() {
+//        FileUtils.clearErrorFile();
+//    }
 
-    @Test
-    public void contextLoads6() {
-        hdfsService.getAllFile();
-    }
+//    @Test
+//    public void contextLoads6() {
+//        hdfsService.getAllFile();
+//    }
 
 }
