@@ -52,4 +52,9 @@ public class OcrcompareJpaApplicationTests {
         FileUtils.clearErrorFile();
     }
 
+    @Test
+    public void contextLoads6() {
+        hdfsService.getAllFile();
+    }
+
 }

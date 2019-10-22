@@ -113,7 +113,6 @@ public class HDFSServiceImpl implements HDFSService {
     public boolean addAllFileToHDFS() {
 
         File file = new File(localRootFilePath);
-
         File[] files = file.listFiles();
         for (File file1: files){
             if(file1.isDirectory() && file1.getName().contains("ms")){
@@ -121,7 +120,7 @@ public class HDFSServiceImpl implements HDFSService {
                 hadoopTemplate.existDir(farRootFilePath + "/" + msid,true);
 //                log.info("create path "+ farRootFilePath + "/" + msid);
                 Iterator<File> iterator = Arrays.stream(file1.listFiles())
-                        .filter(file2 -> file2.isDirectory() && file2.getName().contains("-"))
+                        .filter(file2 -> (file2.isDirectory() && file2.getName().contains("-") && Integer.valueOf(file2.getName().replaceAll("-",""))>20191016))
                         .iterator();
                 while (iterator.hasNext()){
                     File datFile = iterator.next();
@@ -129,7 +128,7 @@ public class HDFSServiceImpl implements HDFSService {
                     Iterator<File> receipts = Arrays.stream(datFile.listFiles()).iterator();
                     while (receipts.hasNext()){
                         File datOrBmp = receipts.next();
-                        log.info("copy file from " +datOrBmp.getAbsolutePath()+ " ---> "+farRootFilePath + "/" + msid + "/" + datFile.getName());
+//                        log.info("copy file from " +datOrBmp.getAbsolutePath()+ " ---> "+farRootFilePath + "/" + msid + "/" + datFile.getName());
                         hadoopTemplate.uploadFile(datOrBmp.getAbsolutePath(),farRootFilePath + "/" + msid + "/" + datFile.getName());
                     }
                 }

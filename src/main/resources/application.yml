@@ -5,7 +5,7 @@ server:
 far:
   host: 103.36.132.28
 local:
-  host: 94.191.10.75
+  host: 172.16.0.104
 
 
 #primary
@@ -22,7 +22,7 @@ spring:
     datasource:
       jdbc-url: jdbc:mysql://${local.host}:3306/fileparser?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
       username: root
-      password: 159357
+      password: ssmedia-11
       driver-class-name: com.mysql.cj.jdbc.Driver
 
   dpsprimary:
@@ -36,7 +36,7 @@ spring:
     datasource:
       jdbc-url: jdbc:mysql://${local.host}:3306/dps?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
       username: root
-      password: 159357
+      password: ssmedia-11
       driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -49,9 +49,10 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
 hadoop:
-  local-root-path: F:\hdfsTest\ParserDirs
-  local-root-path2: F:\hdfsTest\ParserDirs
+  local-root-path: /data/data_3D/NFS_ts2/ParserDir_mili
+  local-root-path2: /data/data_3D/NFS_ts2/ParserDir_mili
   far-rootfile-path: /cubedata/NFS_ts2/ParserDir
-  name-node: hdfs://h100:9000
+#  name-node: hdfs://h100:9000
+  name-node: hdfs://103.36.132.28:9000
   namespace: /cubedata/NFS_ts2/ParserDir
   namespace-root: /cubedata
