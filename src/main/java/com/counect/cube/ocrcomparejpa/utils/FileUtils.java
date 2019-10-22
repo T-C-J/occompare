@@ -37,7 +37,7 @@ public class FileUtils {
 
 
     public static boolean clearErrorFile() {
-        String path = "F:\\hdfsTest\\ParserDirs";
+        String path = "/data/data_3D/NFS_ts2/ParserDir_mili";
         File file = new File(path);
         Arrays.stream(file.listFiles()).filter(file1 -> file1.isDirectory())
                 .forEach(

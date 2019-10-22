@@ -1,5 +1,6 @@
 package com.counect.cube.ocrcomparejpa.controller;
 
+import com.counect.cube.ocrcomparejpa.entity.CallDaserviceReq;
 import com.counect.cube.ocrcomparejpa.service.HDFSService;
 import com.counect.cube.ocrcomparejpa.service.SyncDataService;
 import com.counect.cube.ocrcomparejpa.service.daservice.DaserviceService;
@@ -8,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Set;
 
 @RestController
 public class Rest {
@@ -62,5 +60,11 @@ public class Rest {
         return hdfsService.removeAllFile();
     }
 
+
+    @RequestMapping("callDaservice")
+    public boolean callDaservice(CallDaserviceReq callDaservicereq){
+        daserviceService.callDaserviceRunagain(callDaservicereq);
+        return true;
+    }
 
 }
