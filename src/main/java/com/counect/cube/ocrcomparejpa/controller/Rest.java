@@ -36,13 +36,22 @@ public class Rest {
         return "hello";
     }
 
-//    @RequestMapping("syncMsid")
-//    public String syncMsid(String body){
-//        JSONArray jsonArray = JSONUtil.ArraytoJSONArray(body);
-//        Set<Object> collect = jsonArray.stream().collect(Collectors.toSet());
-//        log.info(JSONUtil.toJson(collect));
-//        return "123";
-//    }
+
+    @RequestMapping("initFileSystem")
+    public boolean initFileSystem(){
+        return syncDataService.initFileSystem();
+    }
+
+    @RequestMapping("addAllFile")
+    public boolean addAllFile(){
+        return syncDataService.addAllFile();
+    }
+
+    @RequestMapping("addFileByDate/{date}")
+    public boolean addFileByDate(@PathVariable("date") String date){
+        return syncDataService.addFileByDate(date);
+    }
+
 
     // 上传文档接口  要同步文件和解析的设备
     @RequestMapping("uploadMsids")
@@ -51,6 +60,7 @@ public class Rest {
             return "上传失败，请选择文件";
         }
         ContainerUtils.analysisFile(file);
+        syncDataService.syncMsids();
         return "success";
     }
 
@@ -64,12 +74,14 @@ public class Rest {
     @RequestMapping("addMsid/{msid}")
     public boolean addMsid(@PathVariable("msid") String msid){
         boolean add = ContainerUtils.UsedMsids.add(msid);
+        syncDataService.syncMsids();
         return add;
     }
 
     @RequestMapping("removeMsid/{msid}")
     public boolean removeMsid(@PathVariable("msid") String msid){
         boolean add = ContainerUtils.UsedMsids.remove(msid);
+        syncDataService.syncMsids();
         return add;
     }
 
@@ -78,6 +90,7 @@ public class Rest {
         ContainerUtils.UsedMsids = new HashSet<>();
         if(ContainerUtils.UsedMsids.isEmpty())
             return true;
+        syncDataService.syncMsids();
         return false;
     }
 

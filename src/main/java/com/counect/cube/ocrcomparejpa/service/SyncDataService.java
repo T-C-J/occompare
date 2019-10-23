@@ -13,4 +13,11 @@ public interface SyncDataService {
     boolean syncDataByMsids(Collection msids);
 
     boolean syncMsids();
+
+    boolean initFileSystem();
+
+    boolean addAllFile();
+
+
+    boolean addFileByDate(String date);
 }
