@@ -10,6 +10,7 @@ public interface SyncDataService {
 
     boolean syncDataByMsid(String msid);
 
-
     boolean syncDataByMsids(Collection msids);
+
+    boolean syncMsids();
 }

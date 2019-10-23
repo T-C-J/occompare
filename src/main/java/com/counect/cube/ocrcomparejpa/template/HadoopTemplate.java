@@ -1,5 +1,6 @@
 package com.counect.cube.ocrcomparejpa.template;
 
+import com.counect.cube.ocrcomparejpa.utils.ContainerUtils;
 import com.counect.cube.ocrcomparejpa.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @ConditionalOnBean(FileSystem.class)
@@ -251,6 +253,7 @@ public class HadoopTemplate {
 //    }
 
     public List<String> getMSDirList(String srcpath) {
+        Set<String> usedMsids = ContainerUtils.UsedMsids;
         try {
             List<String> files = new ArrayList<String>();
             Path path = new Path(srcpath);
@@ -261,6 +264,9 @@ public class HadoopTemplate {
                         files.add(status.getPath().toString());
                     }
                 }
+            }
+            if(!usedMsids.isEmpty()){
+                files = files.stream().filter(file -> usedMsids.contains(file)).collect(Collectors.toList());
             }
             return files;
         } catch (IOException e) {

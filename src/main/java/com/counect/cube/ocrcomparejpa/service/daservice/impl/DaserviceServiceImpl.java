@@ -5,16 +5,15 @@ import com.counect.cube.ocrcomparejpa.entity.CallDaserviceReq;
 import com.counect.cube.ocrcomparejpa.repository.daservice.far.*;
 import com.counect.cube.ocrcomparejpa.repository.daservice.local.*;
 import com.counect.cube.ocrcomparejpa.service.daservice.DaserviceService;
+import com.counect.cube.ocrcomparejpa.utils.ContainerUtils;
 import com.counect.cube.ocrcomparejpa.utils.HttpUtilV2;
 import com.counect.cube.ocrcomparejpa.utils.JSONUtil;
 import com.counect.cube.ocrcomparejpa.utils.SignUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DaserviceServiceImpl implements DaserviceService {
@@ -68,11 +67,21 @@ public class DaserviceServiceImpl implements DaserviceService {
     @Override
     public boolean syncData() {
 
+        Set<String> usedMsids = ContainerUtils.UsedMsids;
+
         List<CubeConfig> configs = farCubeConfigRepository.findAll();
         List<CubeCallbackField> callbackFields = farCubeCallbackFieldRepository.findAll();
         List<CubeCallbackReceipt> callbackReceipts = farCubeCallbackReceiptRepository.findAll();
         List<ReceiptRules> receiptRules = farReceiptRulesRepository.findAll();
         List<ReceiptDefaultValue> defaultValues = farReceiptDefaultValueRepository.findAll();
+
+        if(!usedMsids.isEmpty()){
+            configs = configs.stream().filter(cubeConfig -> usedMsids.contains(cubeConfig.getCubeId())).collect(Collectors.toList());
+            callbackFields = callbackFields.stream().filter( cubeCallbackField -> usedMsids.contains(cubeCallbackField.getCptid())).collect(Collectors.toList());
+            callbackReceipts = callbackReceipts.stream().filter( callbackReceipt -> usedMsids.contains(callbackReceipt.getCptid())).collect(Collectors.toList());
+            receiptRules = receiptRules.stream().filter( receiptRules1 -> usedMsids.contains(receiptRules1.getCubeId())).collect(Collectors.toList());
+            defaultValues = defaultValues.stream().filter( defaultValue -> usedMsids.contains(defaultValue.getCubeId())).collect(Collectors.toList());
+        }
 
         localCubeConfigRepository.saveAll(configs);
         localCubeCallbackFieldRepository.saveAll(callbackFields);

@@ -3,12 +3,15 @@ package com.counect.cube.ocrcomparejpa.service.impl;
 import com.counect.cube.ocrcomparejpa.service.SyncDataService;
 import com.counect.cube.ocrcomparejpa.service.daservice.DaserviceService;
 import com.counect.cube.ocrcomparejpa.service.dps.DpsService;
+import com.counect.cube.ocrcomparejpa.utils.ContainerUtils;
+import com.counect.cube.ocrcomparejpa.utils.HttpUtilV2;
+import com.counect.cube.ocrcomparejpa.utils.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -18,6 +21,9 @@ public class SyncDataServiceImpl implements SyncDataService {
 
     @Autowired
     DpsService dpsService;
+
+    @Value("${far.httpServer}")
+    private String FARHTTPSERVER;
 
 
 
@@ -43,5 +49,20 @@ public class SyncDataServiceImpl implements SyncDataService {
             flag = syncDataByMsid((String) iterator.next()) & flag;
         }
         return flag;
+    }
+
+    /**
+     *  向远端服务同步msid列表
+     * @return
+     */
+    @Override
+    public boolean syncMsids() {
+        Map paramMap = new HashMap<>();
+        paramMap.put("body", JSONUtil.toJson(ContainerUtils.UsedMsids));
+        String path = FARHTTPSERVER + "syncMsid";
+        HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost(path, paramMap);
+        if(httpResponse.getResponse().equals("123"))
+            return true;
+        return false;
     }
 }
