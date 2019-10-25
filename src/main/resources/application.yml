@@ -65,3 +65,6 @@ hadoop:
   name-node: hdfs://103.36.132.28:9000
   namespace: /cubedata/NFS_ts2/ParserDir
   namespace-root: /cubedata
+
+logging:
+  config: classpath:log4j2.xml
