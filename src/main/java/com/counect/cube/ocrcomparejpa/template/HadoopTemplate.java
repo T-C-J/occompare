@@ -15,10 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -159,7 +156,8 @@ public class HadoopTemplate {
         }
         Path hdfsPath = new Path(hdfsFile);
         Path dstPath = new Path(destPath);
-        FileUtils.clearDir(new File(destPath));
+//        FileUtils.clearDir(new File(destPath));
+        FileUtils.clearDirForDownlod(new File(destPath));
         try {
             // 下载hdfs上的文件
 
@@ -266,7 +264,7 @@ public class HadoopTemplate {
                 }
             }
             if(!usedMsids.isEmpty()){
-                files = files.stream().filter(file -> usedMsids.contains(file)).collect(Collectors.toList());
+                files = files.stream().filter(file -> usedMsids.contains(file.substring(file.length()-11))).collect(Collectors.toList());
             }
             return files;
         } catch (IOException e) {
@@ -311,6 +309,21 @@ public class HadoopTemplate {
             log.error(""+e);
         }
         return b;
+    }
+
+    public Integer getFileNumber(Path root){
+        try {
+            FileStatus[] fileStatuses = fileSystem.listStatus(root);
+            Collection<Path> msPath = Arrays.stream(fileStatuses).filter(fileStatus -> fileStatus.isDirectory()).collect(Collectors.toMap(fi -> fi, fi -> fi.getPath())).values();
+            FileStatus[] dateDir = fileSystem.listStatus(msPath.toArray(new Path[msPath.size()]));
+            Collection<Path> datePath = Arrays.stream(dateDir).filter(date -> date.isDirectory()).collect(Collectors.toMap(d -> d, d -> d.getPath())).values();
+            FileStatus[] receipt = fileSystem.listStatus(datePath.toArray(new Path[datePath.size()]));
+            int size = Arrays.stream(receipt).filter(f -> f.isFile()).collect(Collectors.toList()).size();
+            return size;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }

@@ -48,4 +48,7 @@ public interface HDFSService {
      */
     boolean addAllFileToHDFS();
 
+
+    Integer getFileNumber();
+
 }

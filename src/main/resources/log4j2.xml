@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- status : 指定log4j本身的打印日志的级别.ALL< Trace < DEBUG < INFO < WARN < ERROR < FATAL < OFF。
+monitorInterval : 用于指定log4j自动重新配置的监测间隔时间，单位是s,最小是5s. -->
+<Configuration status="INFO" monitorInterval="30">
+    <Properties>
+        <!-- 配置日志文件输出目录 -->
+        <Property name="LOG_HOME">/logs</Property>
+        <property name="PATTERN">%d{yyyy-MM-dd}T%d{HH:mm:ss.SSS} (%p) %c{3}:%L [%t] %m %n</property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout charset="UTF-8" pattern="${PATTERN}" />
+        </Console>
+        <!-- log4j2的按天按大小分日志文件并压缩 : info-%d{yyyy-MM-dd}-%i.log.gz-->
+        <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/ocrcompare.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/ocrcompare-%d{yyyy-MM-dd}-%i.log.gz">
+            <!--只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout charset="UTF-8" pattern="${PATTERN}" />
+            <Policies>
+                <!-- 基于时间的滚动策略，interval属性用来指定多久滚动一次，默认是1 hour。 modulate=true用来调整时间：比如现在是早上3am，interval是4，那么第一次滚动是在4am，接着是8am，12am...而不是7am. -->
+                <!-- TimeBasedTriggeringPolicy的interval单位，关键点在于 filePattern后的日期格式，日期格式精确到哪一位，interval也精确到哪一个单位 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- SizeBasedTriggeringPolicy:Policies子节点， 基于指定文件大小的滚动策略，size属性用来定义每个日志文件压缩前的大小. -->
+                <SizeBasedTriggeringPolicy size="200MB" />
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件 -->
+            <DefaultRolloverStrategy max="9999">
+                <!-- 最多备份60天以内的日志，此处为策略限制，Delete中可以按自己需要用正则表达式编写
+                <Delete basePath="${LOG_HOME}/$${date:yyyy-MM}" maxDepth="2">
+                    <IfFileName glob="info-*.log.gz">
+                        <IfLastModified age="1 h"></IfLastModified>
+                    </IfFileName>
+                </Delete> -->
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <Loggers>
+        <logger name="org.springframework" level="info"></logger>
+        <logger name="org.mybatis" level="info"></logger>
+        <!--<logger name="com.counect.cube.daservice.dpsdao" level="debug"></logger>-->
+        <!-- 配置日志的根节点 -->
+        <root level="info">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+        </root>
+    </Loggers>
+</Configuration>

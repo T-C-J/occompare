@@ -36,7 +36,7 @@ public class OcrcompareJpaApplicationTests {
 
     @Test
     public void contextLoads3() {
-        hdfsService.getFileByDate("2018-03-22");
+        hdfsService.getFileByDate("2019-08-20");
 //        hdfsService.addFileByDateToHDFS("2018-03-22");
 
     }

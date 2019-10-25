@@ -21,6 +21,19 @@ public class FileUtils {
         return dir.getPath();
     }
 
+    public static boolean clearDirForDownlod(File file){
+        if (!file.exists()) {
+            return false;
+        }
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                clearDir(f);
+            }
+        }
+        return true;
+    }
+
     public static boolean clearDir(File file) {
         if (!file.exists()) {
             return false;

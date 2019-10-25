@@ -92,7 +92,7 @@ public class DaserviceServiceImpl implements DaserviceService {
     }
 
     @Override
-    public boolean syncDataByMsid(String msid) {
+    public boolean syncDataByMsid(String msid) { //todo
         CubeConfig configs = farCubeConfigRepository.queryByCubeId(msid);
         CubeCallbackField callbackFields = farCubeCallbackFieldRepository.queryByCptid(msid);
         CubeCallbackReceipt callbackReceipts = farCubeCallbackReceiptRepository.queryById(msid);

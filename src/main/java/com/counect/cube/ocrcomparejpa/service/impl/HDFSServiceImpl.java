@@ -3,15 +3,16 @@ package com.counect.cube.ocrcomparejpa.service.impl;
 import com.counect.cube.ocrcomparejpa.service.HDFSService;
 import com.counect.cube.ocrcomparejpa.template.HadoopTemplate;
 import com.counect.cube.ocrcomparejpa.utils.FileUtils;
+import com.counect.cube.ocrcomparejpa.utils.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -46,6 +47,7 @@ public class HDFSServiceImpl implements HDFSService {
     @Override
     public boolean getFileByDate(String dateStr) {
         List<String> msDirList = hadoopTemplate.getMSDirList(nameSpace);
+        log.info(JSONUtil.toJson(msDirList));
         for (String path : msDirList){
             String[] strs = path.split("/");
             String msid = strs[strs.length -1];
@@ -57,7 +59,7 @@ public class HDFSServiceImpl implements HDFSService {
                     String dat = strs2[strs2.length -1];
                     String dir = FileUtils.createDir(msidPath, dat);
                     hadoopTemplate.getFile(date,dir);
-//                    log.info("下载 " +msid + "日期为 : " + dateStr +"的水单成功");
+                    log.info("下载 " +msid + "日期为 : " + dateStr +"的水单成功");
                 }
             }
         }
@@ -135,6 +137,12 @@ public class HDFSServiceImpl implements HDFSService {
             }
         }
         return true;
+    }
+
+    @Override
+    public Integer getFileNumber() {
+        Integer number = hadoopTemplate.getFileNumber(new Path(nameSpace));
+        return number;
     }
 
 
