@@ -8,6 +8,7 @@ import org.apache.hadoop.fs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-@ConditionalOnBean(FileSystem.class)
+@DependsOn("fileSystem")
 @Slf4j
 public class HadoopTemplate {
 
