@@ -13,7 +13,7 @@ monitorInterval : 用于指定log4j自动重新配置的监测间隔时间，单
             <PatternLayout charset="UTF-8" pattern="${PATTERN}" />
         </Console>
         <!-- log4j2的按天按大小分日志文件并压缩 : info-%d{yyyy-MM-dd}-%i.log.gz-->
-        <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/ocrcompare.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/ocrcompare-%d{yyyy-MM-dd}-%i.log.gz">
+        <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/ocrcompare-jpa.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/ocrcompare-%d{yyyy-MM-dd}-%i.log.gz">
             <!--只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
             <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" />
             <PatternLayout charset="UTF-8" pattern="${PATTERN}" />
