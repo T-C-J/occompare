@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -107,6 +106,12 @@ public class FileSystemTask {
             return true;
         }
         return false;
+    }
+
+    @Scheduled(cron = "0 0/5 * * * ? ")
+    public void test(){
+        log.info("=================== test task start ====================");
+        log.info("=================== test task end ====================");
     }
 
 }
