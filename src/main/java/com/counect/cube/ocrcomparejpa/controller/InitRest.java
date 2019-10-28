@@ -1,5 +1,6 @@
 package com.counect.cube.ocrcomparejpa.controller;
 
+import com.counect.cube.ocrcomparejpa.entity.MsidsBean;
 import com.counect.cube.ocrcomparejpa.service.SyncDataService;
 import com.counect.cube.ocrcomparejpa.utils.ContainerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,18 +40,23 @@ public class InitRest {
         }
         ContainerUtils.analysisFile(file);
         syncDataService.syncMsids();
+        ContainerUtils.UPDATETIME = new Date();
         return "success";
     }
 
     @RequestMapping("getMsids")
-    public Set<String> getConfigureMsids(){
-        return ContainerUtils.UsedMsids;
+    public MsidsBean getConfigureMsids(){
+        MsidsBean msidsBean = new MsidsBean();
+        msidsBean.setMsids(ContainerUtils.UsedMsids);
+        msidsBean.setUpdateTime(ContainerUtils.UPDATETIME);
+        return msidsBean;
     }
 
     @RequestMapping("addMsid/{msid}")
     public boolean addMsid(@PathVariable("msid") String msid){
         boolean add = ContainerUtils.UsedMsids.add(msid);
         syncDataService.syncMsids();
+        ContainerUtils.UPDATETIME = new Date();
         return add;
     }
 
@@ -57,6 +64,7 @@ public class InitRest {
     public boolean removeMsid(@PathVariable("msid") String msid){
         boolean add = ContainerUtils.UsedMsids.remove(msid);
         syncDataService.syncMsids();
+        ContainerUtils.UPDATETIME = new Date();
         return add;
     }
 
@@ -66,6 +74,7 @@ public class InitRest {
         if(ContainerUtils.UsedMsids.isEmpty())
             return true;
         syncDataService.syncMsids();
+        ContainerUtils.UPDATETIME = new Date();
         return false;
     }
 }

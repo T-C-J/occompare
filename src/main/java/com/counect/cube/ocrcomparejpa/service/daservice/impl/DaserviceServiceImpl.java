@@ -9,6 +9,7 @@ import com.counect.cube.ocrcomparejpa.utils.ContainerUtils;
 import com.counect.cube.ocrcomparejpa.utils.HttpUtilV2;
 import com.counect.cube.ocrcomparejpa.utils.JSONUtil;
 import com.counect.cube.ocrcomparejpa.utils.SignUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class DaserviceServiceImpl implements DaserviceService {
     @Autowired
     FarCubeConfigRepository farCubeConfigRepository;
@@ -53,14 +55,15 @@ public class DaserviceServiceImpl implements DaserviceService {
     public boolean callDaserviceRunagain(CallDaserviceReq callDaserviceReq) {
         Map paramMap = new HashMap<>();
         paramMap.put("appid","counect");
-        paramMap.put("time_stamp",String.valueOf(new Date().getTime()/1000));
+        paramMap.put("timestamp",String.valueOf(new Date().getTime()));
         paramMap.put("sign_type","md5");
         paramMap.put("body", JSONUtil.toJson(callDaserviceReq));
         paramMap.put("method","batchAnalysis");
         paramMap.put("v","0.0.1");
         paramMap.put("sign", SignUtil.md5Sign(paramMap,"counect"));
-
+        log.info("请求：" + JSONUtil.toJson(paramMap));
         HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost("http://172.16.0.104:84/batchAnalysis.do", paramMap);
+        log.info(JSONUtil.toJson(httpResponse));
         return true;
     }
 

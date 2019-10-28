@@ -57,42 +57,52 @@ public class SyncDataServiceImpl implements SyncDataService {
      */
     @Override
     public boolean syncMsids() {
-        Map paramMap = new HashMap<>();
-        paramMap.put("body", JSONUtil.toJson(ContainerUtils.UsedMsids));
-        String path = FARHTTPSERVER + "syncMsid";
-        HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost(path, paramMap);
-        if(httpResponse.getResponse().equals("123"))
-            return true;
+        try {
+            Map paramMap = new HashMap<>();
+            paramMap.put("body", JSONUtil.toJson(ContainerUtils.UsedMsids));
+            String path = FARHTTPSERVER + "syncMsid";
+            HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost(path, paramMap);
+            if(httpResponse.getResponse().equals("123"))
+                return true;
+        }catch (Exception e){
+            log.info(e+"");
+        }
         return false;
     }
 
     @Override
     public boolean initFileSystem() {
-        String path = FARHTTPSERVER + "init";
-        Map paramMap = new HashMap<>();
-        HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost(path, paramMap);
-        if(httpResponse.getResponse().equals("true"))
-            return true;
+        try{
+            String path = FARHTTPSERVER + "init";
+            Map paramMap = new HashMap<>();
+            HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost(path, paramMap);
+            if(httpResponse.getResponse().equals("true"))
+                return true;
+        }catch (Exception e){}
         return false;
     }
 
     @Override
     public boolean addAllFile() {
-        String path = FARHTTPSERVER + "addAll";
-        Map paramMap = new HashMap<>();
-        HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost(path, paramMap);
-        if(httpResponse.getResponse().equals("true"))
-            return true;
+        try{
+            String path = FARHTTPSERVER + "addAll";
+            Map paramMap = new HashMap<>();
+            HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost(path, paramMap);
+            if(httpResponse.getResponse().equals("true"))
+                return true;
+        }catch (Exception e){}
         return false;
     }
 
     @Override
     public boolean addFileByDate(String date) {
-        String path = FARHTTPSERVER + "addByDate/" + date;
-        Map paramMap = new HashMap<>();
-        HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost(path, paramMap);
-        if(httpResponse.getResponse().equals("true"))
-            return true;
+        try{
+            String path = FARHTTPSERVER + "addByDate/" + date;
+            Map paramMap = new HashMap<>();
+            HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost(path, paramMap);
+            if(httpResponse.getResponse().equals("true"))
+                return true;
+        }catch (Exception e){}
         return false;
     }
 }

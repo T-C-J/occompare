@@ -22,7 +22,9 @@ public class ContainerUtils {
 //        add("ms132000210");
 //        add("ms132000502");
 //    }}
-    ;public static Set<String > UsedMsids = new HashSet();
+    public static Set<String > UsedMsids = new HashSet();
+    public static Date UPDATETIME = new Date();
+
 
     public static boolean analysisFile(MultipartFile file){
         InputStreamReader isr = null;

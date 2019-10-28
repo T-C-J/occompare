@@ -1,6 +1,7 @@
 package com.counect.cube.ocrcomparejpa;
 
 import com.counect.cube.ocrcomparejpa.service.HDFSService;
+import com.counect.cube.ocrcomparejpa.task.FileSystemTask;
 import com.counect.cube.ocrcomparejpa.template.HadoopTemplate;
 import com.counect.cube.ocrcomparejpa.utils.FileUtils;
 import org.junit.Test;
@@ -20,6 +21,8 @@ public class OcrcompareJpaApplicationTests {
     HadoopTemplate hadoopTemplate;
     @Autowired
     HDFSService hdfsService;
+    @Autowired
+    FileSystemTask fileSystemTask;
 
     @Test
     public void contextLoads() {
@@ -30,8 +33,7 @@ public class OcrcompareJpaApplicationTests {
 
     @Test
     public void contextLoads2() {
-        System.setProperty("hadoop.home.dir", "F:\\hadoop\\hadoop-2.7.7");
-        hadoopTemplate.getFile("/counect","C:\\Users\\TCJ\\Desktop\\test123");
+        hdfsService.getAllFile();
     }
 
     @Test
@@ -54,7 +56,8 @@ public class OcrcompareJpaApplicationTests {
 
     @Test
     public void contextLoads6() {
-        hdfsService.getAllFile();
+        fileSystemTask.pullFile();
+//        hdfsService.getAllFile();
     }
 
 }

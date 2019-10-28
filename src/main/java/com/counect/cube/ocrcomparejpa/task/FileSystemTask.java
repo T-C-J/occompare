@@ -26,7 +26,7 @@ public class FileSystemTask {
     /**
      *  每天一点执行
      */
-    @Scheduled(cron = "0 0 1 * * ? ")
+//    @Scheduled(cron = "0 0 1 * * ? ")
     public void pushFile(){
         flag = false;
         String date = getDate();
@@ -55,7 +55,7 @@ public class FileSystemTask {
     /**
      *  每天两点执行
      */
-    @Scheduled(cron = "0 0 2 * * ? ")
+//    @Scheduled(cron = "0 0 2 * * ? ")
     public void pullFile(){
         String date = getDate();
         if(flag == false){
@@ -102,15 +102,19 @@ public class FileSystemTask {
             e.printStackTrace();
         }
         log.info("文件系统共有 " + fileNumber + "个文件");
-        if(hdfsService.getFileNumber() == fileNumber){
+        if(hdfsService.getFileNumber().compareTo(fileNumber) == 0){
             return true;
         }
         return false;
     }
 
-    @Scheduled(cron = "0 0/5 * * * ? ")
+//    @Scheduled(cron = "0 0/5 * * * ? ")
     public void test(){
         log.info("=================== test task start ====================");
+        log.info("123-1-=1-2=-12=-=");
+        log.info("123-1-=1-2=-12=-=");
+        log.info("123-1-=1-2=-12=-=");
+        log.info("123-1-=1-2=-12=-=");
         log.info("=================== test task end ====================");
     }
 
