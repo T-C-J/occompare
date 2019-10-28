@@ -60,7 +60,7 @@ server:
 hadoop:
   local-root-path: /cubedata/NFS_ts2/ParserDir
   #  local-root-path2: F:\hdfsTest\ParserDir
-  far-rootfile-path: /cubedata/NFS_ts2/ParserDir
+  far-rootfile-path: /cubedata/NFS_ts2/ParserDir_mili
   #  name-node: hdfs://h100:9000
   name-node: hdfs://103.36.132.28:9000
   namespace: /cubedata/NFS_ts2/ParserDir_mili
