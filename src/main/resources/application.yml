@@ -56,10 +56,10 @@ spring:
 hadoop:
   local-root-path: /data/data_3D/NFS_ts2/ParserDir_mili
   local-root-path2: /data/data_3D/NFS_ts2/ParserDir_mili
-  far-rootfile-path: /cubedata/NFS_ts2/ParserDir
+  far-rootfile-path: /cubedata/NFS_ts2/ParserDir_mili
 #  name-node: hdfs://h100:9000
   name-node: hdfs://103.36.132.28:9000
-  namespace: /cubedata/NFS_ts2/ParserDir/
+  namespace: /cubedata/NFS_ts2/ParserDir_mili
   namespace-root: /cubedata
 
 logging:

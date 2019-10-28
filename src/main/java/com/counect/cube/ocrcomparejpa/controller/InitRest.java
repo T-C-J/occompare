@@ -1,7 +1,9 @@
 package com.counect.cube.ocrcomparejpa.controller;
 
 import com.counect.cube.ocrcomparejpa.entity.MsidsBean;
+import com.counect.cube.ocrcomparejpa.repository.daservice.local.OcrMsidRepository;
 import com.counect.cube.ocrcomparejpa.service.SyncDataService;
+import com.counect.cube.ocrcomparejpa.service.impl.OcrMsidServiceImpl;
 import com.counect.cube.ocrcomparejpa.utils.ContainerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +33,8 @@ import java.util.Set;
 public class InitRest {
     @Autowired
     SyncDataService syncDataService;
+    @Autowired
+    OcrMsidServiceImpl ocrMsidServiceImpl;
 
 
     @RequestMapping("uploadMsids")
@@ -40,6 +44,7 @@ public class InitRest {
         }
         ContainerUtils.analysisFile(file);
         syncDataService.syncMsids();
+        ocrMsidServiceImpl.syncMsid();
         ContainerUtils.UPDATETIME = new Date();
         return "success";
     }
@@ -56,6 +61,7 @@ public class InitRest {
     public boolean addMsid(@PathVariable("msid") String msid){
         boolean add = ContainerUtils.UsedMsids.add(msid);
         syncDataService.syncMsids();
+        ocrMsidServiceImpl.syncMsid();
         ContainerUtils.UPDATETIME = new Date();
         return add;
     }
@@ -64,6 +70,7 @@ public class InitRest {
     public boolean removeMsid(@PathVariable("msid") String msid){
         boolean add = ContainerUtils.UsedMsids.remove(msid);
         syncDataService.syncMsids();
+        ocrMsidServiceImpl.syncMsid();
         ContainerUtils.UPDATETIME = new Date();
         return add;
     }
@@ -74,6 +81,7 @@ public class InitRest {
         if(ContainerUtils.UsedMsids.isEmpty())
             return true;
         syncDataService.syncMsids();
+        ocrMsidServiceImpl.delAll();
         ContainerUtils.UPDATETIME = new Date();
         return false;
     }
