@@ -63,7 +63,7 @@ hadoop:
   far-rootfile-path: /cubedata/NFS_ts2/ParserDir
   #  name-node: hdfs://h100:9000
   name-node: hdfs://103.36.132.28:9000
-  namespace: /cubedata/NFS_ts2/ParserDir
+  namespace: /cubedata/NFS_ts2/ParserDir_mili
   namespace-root: /cubedata
 
 logging:
