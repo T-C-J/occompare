@@ -23,23 +23,23 @@ public class Rest {
     HDFSService hdfsService;
 
     @RequestMapping("hello")
-    public String Hello(){
-        return"hello";
+    public Set<String> Hello(){
+        return ContainerUtils.UsedMsids;
     }
 
 
-    @RequestMapping("syncMsid")
-    public String syncMsid(String body){
-        Set<String> usedMsids = new HashSet<>();
-        JSONArray jsonArray = JSONUtil.ArraytoJSONArray(body);
-        Set<Object> collect = jsonArray.stream().collect(Collectors.toSet());
-        for(Object object :collect){
-            usedMsids.add((String)object);
-        }
-        ContainerUtils.UsedMsids = usedMsids;
-        log.info(JSONUtil.toJson(collect));
-        return "123";
-    }
+//    @RequestMapping("syncMsid")
+//    public String syncMsid(String body){
+//        Set<String> usedMsids = new HashSet<>();
+//        JSONArray jsonArray = JSONUtil.ArraytoJSONArray(body);
+//        Set<Object> collect = jsonArray.stream().collect(Collectors.toSet());
+//        for(Object object :collect){
+//            usedMsids.add((String)object);
+//        }
+//        ContainerUtils.UsedMsids = usedMsids;
+//        log.info(JSONUtil.toJson(collect));
+//        return "123";
+//    }
 
     @RequestMapping("init")
     public Boolean init(){
