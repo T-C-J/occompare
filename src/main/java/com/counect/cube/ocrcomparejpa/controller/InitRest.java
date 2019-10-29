@@ -37,21 +37,22 @@ public class InitRest {
     OcrMsidServiceImpl ocrMsidServiceImpl;
 
 
-    @RequestMapping("uploadMsids")
-    public String uploadMsids(@RequestParam("file") MultipartFile file){
-        if (file.isEmpty()) {
-            return "上传失败，请选择文件";
-        }
-        ContainerUtils.analysisFile(file);
-        syncDataService.syncMsids();
-        ocrMsidServiceImpl.syncMsid();
-        ContainerUtils.UPDATETIME = new Date();
-        return "success";
-    }
+//    @RequestMapping("uploadMsids")
+//    public String uploadMsids(@RequestParam("file") MultipartFile file){
+//        if (file.isEmpty()) {
+//            return "上传失败，请选择文件";
+//        }
+//        ContainerUtils.analysisFile(file);
+//        syncDataService.syncMsids();
+//        ocrMsidServiceImpl.syncMsid();
+//        ContainerUtils.UPDATETIME = new Date();
+//        return "success";
+//    }
 
     @RequestMapping("getMsids")
     public MsidsBean getConfigureMsids(){
         MsidsBean msidsBean = new MsidsBean();
+        ocrMsidServiceImpl.syncMsid();
         msidsBean.setMsids(ContainerUtils.UsedMsids);
         msidsBean.setUpdateTime(ContainerUtils.UPDATETIME);
         return msidsBean;
@@ -75,14 +76,14 @@ public class InitRest {
         return add;
     }
 
-    @RequestMapping("emptyMsids")
-    public boolean emptyMsids(){
-        ContainerUtils.UsedMsids = new HashSet<>();
-        if(ContainerUtils.UsedMsids.isEmpty())
-            return true;
-        syncDataService.syncMsids();
-        ocrMsidServiceImpl.delAll();
-        ContainerUtils.UPDATETIME = new Date();
-        return false;
-    }
+//    @RequestMapping("emptyMsids")
+//    public boolean emptyMsids(){
+//        ContainerUtils.UsedMsids = new HashSet<>();
+//        if(ContainerUtils.UsedMsids.isEmpty())
+//            return true;
+//        syncDataService.syncMsids();
+//        ocrMsidServiceImpl.delAll();
+//        ContainerUtils.UPDATETIME = new Date();
+//        return false;
+//    }
 }

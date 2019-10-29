@@ -35,8 +35,10 @@ public class DpsServiceImpl implements DpsService {
 
     @Override
     public boolean syncDataByMsid(String msid) {
-        TblCubeInit tblCubeInit = farTblCubeInitRepository.queryBySid(msid);
-        localTblCubeInitRepository.save(tblCubeInit);
+        List<TblCubeInit> tblCubeInits = farTblCubeInitRepository.findAll();
+//        TblCubeInit tblCubeInit = farTblCubeInitRepository.queryBySid(msid);
+        tblCubeInits = tblCubeInits.stream().filter(tblCubeInit -> msid.equals(tblCubeInit.getSid())).collect(Collectors.toList());
+        localTblCubeInitRepository.saveAll(tblCubeInits);
         return true;
     }
 

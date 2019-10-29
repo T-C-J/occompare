@@ -96,17 +96,30 @@ public class DaserviceServiceImpl implements DaserviceService {
 
     @Override
     public boolean syncDataByMsid(String msid) { //todo
-        CubeConfig configs = farCubeConfigRepository.queryByCubeId(msid);
-        CubeCallbackField callbackFields = farCubeCallbackFieldRepository.queryByCptid(msid);
-        CubeCallbackReceipt callbackReceipts = farCubeCallbackReceiptRepository.queryById(msid);
-        ReceiptRules receiptRules = farReceiptRulesRepository.queryByCubeId(msid);
-        ReceiptDefaultValue defaultValues = farReceiptDefaultValueRepository.queryByCubeId(msid);
 
-        localCubeConfigRepository.save(configs);
-        localCubeCallbackFieldRepository.save(callbackFields);
-        localCubeCallbackReceiptRepository.save(callbackReceipts);
-        localReceiptRulesRepository.save(receiptRules);
-        localReceiptDefaultValueRepository.save(defaultValues);
+        List<CubeConfig> configs = farCubeConfigRepository.findAll();
+        List<CubeCallbackField> callbackFields = farCubeCallbackFieldRepository.findAll();
+        List<CubeCallbackReceipt> callbackReceipts = farCubeCallbackReceiptRepository.findAll();
+        List<ReceiptRules> receiptRules = farReceiptRulesRepository.findAll();
+        List<ReceiptDefaultValue> defaultValues = farReceiptDefaultValueRepository.findAll();
+//        CubeConfig configs = farCubeConfigRepository.queryByCubeId(msid);
+//        CubeCallbackField callbackFields = farCubeCallbackFieldRepository.queryByCptid(msid);
+//        CubeCallbackReceipt callbackReceipts = farCubeCallbackReceiptRepository.queryById(msid);
+//        ReceiptRules receiptRules = farReceiptRulesRepository.queryByCubeId(msid);
+//        ReceiptDefaultValue defaultValues = farReceiptDefaultValueRepository.queryByCubeId(msid);
+        configs = configs.stream().filter(cubeConfig -> msid.equals(cubeConfig.getCubeId())).collect(Collectors.toList());
+        callbackFields = callbackFields.stream().filter( cubeCallbackField -> msid.equals(cubeCallbackField.getCptid())).collect(Collectors.toList());
+        callbackReceipts = callbackReceipts.stream().filter( callbackReceipt -> msid.equals(callbackReceipt.getCptid())).collect(Collectors.toList());
+        receiptRules = receiptRules.stream().filter( receiptRules1 -> msid.equals(receiptRules1.getCubeId())).collect(Collectors.toList());
+        defaultValues = defaultValues.stream().filter( defaultValue -> msid.equals(defaultValue.getCubeId())).collect(Collectors.toList());
+
+
+
+        localCubeConfigRepository.saveAll(configs);
+        localCubeCallbackFieldRepository.saveAll(callbackFields);
+        localCubeCallbackReceiptRepository.saveAll(callbackReceipts);
+        localReceiptRulesRepository.saveAll(receiptRules);
+        localReceiptDefaultValueRepository.saveAll(defaultValues);
         return true;
     }
 
