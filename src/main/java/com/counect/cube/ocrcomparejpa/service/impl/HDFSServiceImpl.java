@@ -10,14 +10,14 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @DependsOn("hadoopTemplate")
 @Service
 @Slf4j
 public class HDFSServiceImpl implements HDFSService {
+    private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     HadoopTemplate hadoopTemplate;
@@ -72,6 +72,21 @@ public class HDFSServiceImpl implements HDFSService {
         return true;
     }
 
+    @Override
+    public boolean addLastDayFileToHDFS() {
+        String dateStr = getDate();
+        boolean b = addFileByDateToHDFS(dateStr);
+        return b;
+    }
+
+    private String getDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE,-1);
+        Date time = calendar.getTime();
+        String format = df.format(time);
+        return format;
+    }
+
     /**
      *  文件太多了  限制如果执行这个方法则只搬运  2019-10-10 之后的
      * @return
@@ -79,6 +94,10 @@ public class HDFSServiceImpl implements HDFSService {
     @Override
     public boolean addAllFileToHDFS() {
         Set<String> usedMsids = ContainerUtils.UsedMsids;
+        if(usedMsids.isEmpty()){
+            log.info("msids 为空  不进行文件操作");
+            return false;
+        }
         File file = new File(localRootFilePath);
         File[] files = file.listFiles();
         for (File file1: files){
@@ -94,7 +113,7 @@ public class HDFSServiceImpl implements HDFSService {
                 hadoopTemplate.existDir(farRootFilePath + "/" + msid,true);
 //                log.info("create path "+ farRootFilePath + "/" + msid);
                 Iterator<File> iterator = Arrays.stream(file1.listFiles())
-                        .filter(file2 -> (file2.isDirectory() && file2.getName().contains("-") && Integer.valueOf(file2.getName().replaceAll("-",""))>20191010))
+                        .filter(file2 -> (file2.isDirectory() && file2.getName().contains("-") && Integer.valueOf(file2.getName().replaceAll("-",""))>20191025))
                         .iterator();
                 while (iterator.hasNext()){
                     File datFile = iterator.next();

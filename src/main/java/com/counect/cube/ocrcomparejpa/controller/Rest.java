@@ -45,12 +45,20 @@ public class Rest {
     public Boolean init(){
         return hdfsService.init();
     }
+
     @RequestMapping("addAll")
     public Boolean addAllReceipt(){
         return hdfsService.addAllFileToHDFS();
     }
+
     @RequestMapping("addByDate/{date}")
     public Boolean addAllReceipt(@PathVariable("date") String date){
         return hdfsService.addFileByDateToHDFS(date);
     }
+
+    @RequestMapping("addDayReceippt")
+    public Boolean addYestdayReceipt(){
+        return hdfsService.addLastDayFileToHDFS();
+    }
+
 }

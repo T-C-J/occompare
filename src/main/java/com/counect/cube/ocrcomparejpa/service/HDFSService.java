@@ -16,6 +16,8 @@ public interface HDFSService {
      */
     boolean addFileByDateToHDFS(String dateStr);
 
+    boolean addLastDayFileToHDFS();
+
     /**
      *  将本地所有文件上传到HDFS
      * @return
