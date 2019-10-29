@@ -1,7 +1,6 @@
 package com.counect.cube.ocrcomparejpa;
 
 import com.counect.cube.ocrcomparejpa.service.HDFSService;
-import com.counect.cube.ocrcomparejpa.task.FileSystemTask;
 import com.counect.cube.ocrcomparejpa.template.HadoopTemplate;
 import com.counect.cube.ocrcomparejpa.utils.FileUtils;
 import org.junit.Test;
@@ -21,8 +20,6 @@ public class OcrcompareJpaApplicationTests {
     HadoopTemplate hadoopTemplate;
     @Autowired
     HDFSService hdfsService;
-    @Autowired
-    FileSystemTask fileSystemTask;
 
     @Test
     public void contextLoads() {
@@ -54,10 +51,5 @@ public class OcrcompareJpaApplicationTests {
         FileUtils.clearErrorFile();
     }
 
-    @Test
-    public void contextLoads6() {
-        fileSystemTask.pullFile();
-//        hdfsService.getAllFile();
-    }
 
 }

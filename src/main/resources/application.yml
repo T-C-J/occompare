@@ -3,7 +3,7 @@ server:
 
 
 far:
-  host: 103.36.132.28
+  host: 103.36.132.27
   httpServer: http://${far.host}:8888/
 local:
   host: 172.16.0.104
@@ -18,8 +18,8 @@ spring:
   primary:
     datasource:
       jdbc-url: jdbc:mysql://${far.host}:3306/fileparser?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
-      username: root
-      password: ssmedia-11
+      username: read
+      password: counect_!@3
       driver-class-name: com.mysql.cj.jdbc.Driver
 
   #secondary
@@ -33,8 +33,8 @@ spring:
   dpsprimary:
     datasource:
       jdbc-url: jdbc:mysql://${far.host}:3306/dps?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
-      username: root
-      password: ssmedia-11
+      username: read
+      password: counect_!@3
       driver-class-name: com.mysql.cj.jdbc.Driver
 
   dpssecondary:
