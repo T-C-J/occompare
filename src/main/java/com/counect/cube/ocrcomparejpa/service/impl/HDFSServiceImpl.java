@@ -121,7 +121,7 @@ public class HDFSServiceImpl implements HDFSService {
                     Iterator<File> receipts = Arrays.stream(datFile.listFiles()).iterator();
                     while (receipts.hasNext()){
                         File datOrBmp = receipts.next();
-//                        log.info("copy file from " +datOrBmp.getAbsolutePath()+ " ---> "+farRootFilePath + "/" + msid + "/" + datFile.getName());
+                        log.info("copy file from " +datOrBmp.getAbsolutePath()+ " ---> "+farRootFilePath + "/" + msid + "/" + datFile.getName());
                         hadoopTemplate.uploadFile(datOrBmp.getAbsolutePath(),farRootFilePath + "/" + msid + "/" + datFile.getName());
                     }
                 }
