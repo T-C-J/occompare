@@ -162,7 +162,12 @@ public class HadoopTemplate {
             // 下载hdfs上的文件
             FileStatus[] fileStatuses = fileSystem.listStatus(hdfsPath);
             for(FileStatus fileStatus:fileStatuses){
-                fileSystem.copyToLocalFile(fileStatus.getPath(), dstPath);
+                boolean bmpFiles = isBMPFiles(fileStatus);
+                if(bmpFiles){
+                    fileSystem.copyToLocalFile(fileStatus.getPath(), dstPath);
+                }else{
+                    log.info("文字水单  不处理");
+                }
             }
             // 释放资源
             // fs.close();
@@ -311,6 +316,35 @@ public class HadoopTemplate {
     }
 
 
+    public FileStatus[] getFileStatus(Path path){
+        try {
+            FileStatus[] fileStatuses = fileSystem.listStatus(path);
+            return fileStatuses;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean isBMPFiles(FileStatus fileStatus){
+
+        if(fileStatus.isFile()){
+            if(fileStatus.getPath().toString().endsWith(".bmp")){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        FileStatus[] files = getFileStatus(fileStatus.getPath());
+        for (FileStatus file:files){
+            boolean bmpFiles = isBMPFiles(file);
+            if(bmpFiles){
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * 删除文件，实际上删除的是给定path路径的最后一个
      * 跟java中一样，也需要path对象，不过是hadoop.fs包中的。
