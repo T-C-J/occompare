@@ -160,6 +160,28 @@ public class HadoopTemplate {
         FileUtils.clearDirForDownlod(new File(destPath));
         try {
             // 下载hdfs上的文件
+            FileStatus[] fileStatuses = fileSystem.listStatus(hdfsPath);
+            for(FileStatus fileStatus:fileStatuses){
+                fileSystem.copyToLocalFile(fileStatus.getPath(), dstPath);
+            }
+            // 释放资源
+            // fs.close();
+        } catch (IOException e) {
+            log.error("", e);
+        }
+    }
+
+    public void getFileForDate(String hdfsFile,String destPath) {
+        // 源文件路径
+        if(!hdfsFile.contains(nameNode)){
+            hdfsFile = nameNode + hdfsFile;
+        }
+        Path hdfsPath = new Path(hdfsFile);
+        Path dstPath = new Path(destPath);
+        FileUtils.clearDir(new File(destPath));
+//        FileUtils.clearDirForDownlod(new File(destPath));
+        try {
+            // 下载hdfs上的文件
 
             fileSystem.copyToLocalFile(hdfsPath, dstPath);
             // 释放资源
@@ -168,7 +190,6 @@ public class HadoopTemplate {
             log.error("", e);
         }
     }
-
 
     /**
      * 遍历文件夹

@@ -60,7 +60,7 @@ public class HDFSServiceImpl implements HDFSService {
                     String[] strs2 = date.split("/");
                     String dat = strs2[strs2.length -1];
                     String dir = FileUtils.createDir(msidPath, dat);
-                    hadoopTemplate.getFile(date,dir);
+                    hadoopTemplate.getFileForDate(date,dir);
                     log.info("下载 " +msid + "日期为 : " + dateStr +"的水单成功");
                 }
             }
