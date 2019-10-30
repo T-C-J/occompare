@@ -1,12 +1,16 @@
 package com.counect.cube.ocrcomparejpa;
 
+import com.counect.cube.ocrcomparejpa.domain.daservice.OcrCompare;
+import com.counect.cube.ocrcomparejpa.repository.daservice.local.OcrCompareRepository;
 import com.counect.cube.ocrcomparejpa.service.HDFSService;
+import com.counect.cube.ocrcomparejpa.service.daservice.impl.DaserviceServiceImpl;
 import com.counect.cube.ocrcomparejpa.template.HadoopTemplate;
 import com.counect.cube.ocrcomparejpa.utils.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Example;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -20,6 +24,12 @@ public class OcrcompareJpaApplicationTests {
     HadoopTemplate hadoopTemplate;
     @Autowired
     HDFSService hdfsService;
+
+    @Autowired
+    OcrCompareRepository ocrCompareRepository;
+
+    @Autowired
+    DaserviceServiceImpl daserviceService;
 
     @Test
     public void contextLoads() {
@@ -48,8 +58,21 @@ public class OcrcompareJpaApplicationTests {
 
     @Test
     public void contextLoads5() {
-        FileUtils.clearErrorFile();
+        hdfsService.delDatFile();
     }
 
+    @Test
+    public void contextLoads6() {
+
+        OcrCompare ocrCompare = new OcrCompare();
+        ocrCompare.setText("");
+        Example<OcrCompare> example = Example.of(ocrCompare);
+
+        List<OcrCompare> all = ocrCompareRepository.findAll(example);
+        System.out.println(all);
+        for (OcrCompare receipt:all){
+            daserviceService.analysisReceipt(receipt);
+        }
+    }
 
 }

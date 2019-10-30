@@ -67,6 +67,33 @@ public class DaserviceServiceImpl implements DaserviceService {
         return true;
     }
 
+
+    public boolean analysisReceipt(OcrCompare ocrCompare) {
+        Map paramMap = new HashMap<>();
+        HashMap<Object, Object> body = new HashMap<>();
+        paramMap.put("appid","counect");
+        paramMap.put("timestamp",String.valueOf(System.currentTimeMillis()));
+        paramMap.put("sign_type","md5");
+        paramMap.put("method","analysis");
+        paramMap.put("v","0.0.1");
+
+        String filepath = ocrCompare.getFilepath();
+        String[] split = filepath.split("/");
+        body.put("file_path", filepath.replaceAll("ParserDir_mili","ParserDir"));
+        body.put("msid", split[split.length -3]);
+
+
+        paramMap.put("body", JSONUtil.toJson(body));
+
+
+        paramMap.put("sign", SignUtil.md5Sign(paramMap,"counect"));
+        log.info("请求：" + JSONUtil.toJson(paramMap));
+        HttpUtilV2.HttpResponse httpResponse = HttpUtilV2.doPost("http://172.16.0.104:84/analysis.do", paramMap);
+        log.info(JSONUtil.toJson(httpResponse));
+        return true;
+    }
+
+
     @Override
     public boolean syncData() {
 

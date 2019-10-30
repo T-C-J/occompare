@@ -65,4 +65,10 @@ public class FileSystemRest {
     public boolean removeAllReceipt(){
         return hdfsService.removeAllFile();
     }
+
+
+    @RequestMapping("delDatFile")
+    public boolean delDatFile(){
+        return hdfsService.delDatFile();
+    }
 }

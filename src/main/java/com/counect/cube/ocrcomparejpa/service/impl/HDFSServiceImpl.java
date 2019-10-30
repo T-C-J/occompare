@@ -147,5 +147,10 @@ public class HDFSServiceImpl implements HDFSService {
         return number;
     }
 
+    @Override
+    public boolean delDatFile() {
+        return hadoopTemplate.delDatFile(new Path(nameSpace));
+    }
+
 
 }

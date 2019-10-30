@@ -381,4 +381,24 @@ public class HadoopTemplate {
         return 0;
     }
 
+    public boolean delDatFile(Path root) {
+        try {
+            FileStatus[] fileStatuses = fileSystem.listStatus(root);
+            for(FileStatus fileStatus:fileStatuses){
+                if(fileStatus.isDirectory()){
+                    delDatFile(fileStatus.getPath());
+                }else{
+                    if(fileStatus.getPath().toString().endsWith(".dat")){
+                        boolean b = fileSystem.deleteOnExit(fileStatus.getPath());
+                        if(b){
+                            log.info("删除 文件 成功 ：" + fileStatus.getPath().toString());
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 }
