@@ -4,6 +4,7 @@ import com.counect.cube.ocrcomparejpa.domain.daservice.OcrCompare;
 import com.counect.cube.ocrcomparejpa.repository.daservice.local.OcrCompareRepository;
 import com.counect.cube.ocrcomparejpa.service.HDFSService;
 import com.counect.cube.ocrcomparejpa.service.daservice.impl.DaserviceServiceImpl;
+import com.counect.cube.ocrcomparejpa.task.OcrErrorReceiptRetryTask;
 import com.counect.cube.ocrcomparejpa.template.HadoopTemplate;
 import com.counect.cube.ocrcomparejpa.utils.FileUtils;
 import org.junit.Test;
@@ -27,6 +28,9 @@ public class OcrcompareJpaApplicationTests {
     HadoopTemplate hadoopTemplate;
     @Autowired
     HDFSService hdfsService;
+
+    @Autowired
+    OcrErrorReceiptRetryTask ocrErrorReceiptRetryTask;
 
     @Autowired
     OcrCompareRepository ocrCompareRepository;
@@ -65,7 +69,7 @@ public class OcrcompareJpaApplicationTests {
     }
     @Test
     public void contextLoads7() {
-        daserviceService.receiptSync();
+        ocrErrorReceiptRetryTask.pushFileComplete();
     }
 
     @Test
