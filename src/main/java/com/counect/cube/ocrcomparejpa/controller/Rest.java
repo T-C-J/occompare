@@ -7,6 +7,7 @@ import com.counect.cube.ocrcomparejpa.utils.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,5 +61,20 @@ public class Rest {
     public Boolean addYestdayReceipt(){
         return hdfsService.addLastDayFileToHDFS();
     }
+
+
+    @RequestMapping("addReceiptAgain")
+    public Boolean s(){
+        hdfsService.addFileByDateToHDFS("2019-10-18");
+        hdfsService.addFileByDateToHDFS("2019-10-19");
+        hdfsService.addFileByDateToHDFS("2019-10-20");
+        hdfsService.addFileByDateToHDFS("2019-10-21");
+        hdfsService.addFileByDateToHDFS("2019-10-22");
+        hdfsService.addFileByDateToHDFS("2019-10-23");
+        hdfsService.addFileByDateToHDFS("2019-10-24");
+        hdfsService.addFileByDateToHDFS("2019-10-25");
+        return true;
+    }
+
 
 }
