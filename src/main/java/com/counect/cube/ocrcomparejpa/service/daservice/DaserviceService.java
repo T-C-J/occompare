@@ -12,4 +12,9 @@ public interface DaserviceService {
     boolean syncData();
     boolean syncDataByMsid(String msid);
 
+
+
+    boolean receiptSync();
+    boolean receiptSyncByDate( String dateStr);
+
 }

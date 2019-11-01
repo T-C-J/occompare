@@ -10,12 +10,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Component
 @Slf4j
 public class OcrErrorReceiptRetryTask {
     @Autowired
     OcrCompareRepository ocrCompareRepository;
+    ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Autowired
     DaserviceServiceImpl daserviceService;
@@ -28,7 +31,12 @@ public class OcrErrorReceiptRetryTask {
         Example<OcrCompare> example = Example.of(ocrCompare);
         List<OcrCompare> all = ocrCompareRepository.findAll(example);
         for (OcrCompare receipt:all){
-            daserviceService.analysisReceipt(receipt);
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    daserviceService.analysisReceipt(receipt);
+                }
+            });
         }
         log.info("================================= END TASK =================================");
     }

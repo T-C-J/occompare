@@ -14,6 +14,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 @RunWith(SpringRunner.class)
@@ -60,9 +63,16 @@ public class OcrcompareJpaApplicationTests {
     public void contextLoads5() {
         hdfsService.delDatFile();
     }
+    @Test
+    public void contextLoads7() {
+        daserviceService.receiptSync();
+    }
 
     @Test
     public void contextLoads6() {
+
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
 
         OcrCompare ocrCompare = new OcrCompare();
         ocrCompare.setText("");
@@ -71,7 +81,17 @@ public class OcrcompareJpaApplicationTests {
         List<OcrCompare> all = ocrCompareRepository.findAll(example);
         System.out.println(all);
         for (OcrCompare receipt:all){
-            daserviceService.analysisReceipt(receipt);
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    daserviceService.analysisReceipt(receipt);
+                }
+            });
+        }
+        try {
+            Thread.sleep(1000*60*60*2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

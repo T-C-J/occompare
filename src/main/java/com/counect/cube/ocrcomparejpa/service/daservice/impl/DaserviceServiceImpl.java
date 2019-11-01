@@ -11,8 +11,15 @@ import com.counect.cube.ocrcomparejpa.utils.JSONUtil;
 import com.counect.cube.ocrcomparejpa.utils.SignUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,6 +57,42 @@ public class DaserviceServiceImpl implements DaserviceService {
     @Autowired
     LocalReceiptRulesRepository localReceiptRulesRepository;
 
+    @Autowired
+    LocalReceiptRepository localReceiptRepository;
+    @Autowired
+    FarReceiptRepository farReceiptRepository;
+
+
+    private static final Set<String> res = new HashSet<String>(){{
+        add("ms007008102");
+        add("ms007008101");
+        add("ms007007801");
+        add("ms007007601");
+        add("ms007007401");
+        add("ms007007001");
+        add("ms007006701");
+        add("ms007006601");
+        add("ms007005801");
+        add("ms007005101");
+        add("ms007004904");
+        add("ms007004902");
+        add("ms007004901");
+        add("ms007003901");
+        add("ms007003601");
+        add("ms007003501");
+        add("ms007003201");
+        add("ms007003101");
+        add("ms007002804");
+        add("ms007002701");
+        add("ms007002401");
+        add("ms007002301");
+        add("ms007001904");
+        add("ms007001903");
+        add("ms007001801");
+        add("ms007001301");
+        add("ms007001101");
+        add("ms007000301");
+    }};
 
     @Override
     public boolean callDaserviceRunagain(CallDaserviceReq callDaserviceReq) {
@@ -150,6 +193,40 @@ public class DaserviceServiceImpl implements DaserviceService {
         return true;
     }
 
+    @Override
+    public boolean receiptSync() {
+        Set<String> msids = getMsids();
+        for(String msid:msids){
+            Receipt receipt = new Receipt();
+            receipt.setMsid(msid);
+            Specification<Receipt> specification = new Specification<Receipt>() {
+                @Override
+                public Predicate toPredicate(Root<Receipt> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                    List<Predicate> predicates = new ArrayList<>();
+                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("tsdate").as(String.class),"2019-10-26"));
+                    predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("tsdate").as(String.class),"2019-10-29"));
+                    predicates.add(criteriaBuilder.like(root.get("msid").as(String.class),"ms0070" + "%"));
+//                    predicates.add(criteriaBuilder.like(root.get("file_type").as(String.class),".bmp"));
+                    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+            };
+//            Example<Receipt> example = Example.of(receipt ,matcher);
+            List<Receipt> all = farReceiptRepository.findAll(specification);
+            List<Receipt> receipts = localReceiptRepository.saveAll(all);
+            System.out.println(all);
+        }
+
+        return false;
+    }
+
+    private Set<String> getMsids() {
+        return res;
+    }
+
+    @Override
+    public boolean receiptSyncByDate(String dateStr) {
+        return false;
+    }
 
 
 }

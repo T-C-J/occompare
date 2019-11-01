@@ -46,6 +46,8 @@ spring:
 
   jpa:
     hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: none
       primary-dialect: org.hibernate.dialect.MySQL5Dialect
       secondary-dialect: org.hibernate.dialect.MySQL5Dialect
