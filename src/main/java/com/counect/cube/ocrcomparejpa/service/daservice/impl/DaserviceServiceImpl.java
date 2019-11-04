@@ -203,8 +203,8 @@ public class DaserviceServiceImpl implements DaserviceService {
                 @Override
                 public Predicate toPredicate(Root<Receipt> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                     List<Predicate> predicates = new ArrayList<>();
-                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("tsdate").as(String.class),"2019-10-26"));
-                    predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("tsdate").as(String.class),"2019-10-29"));
+                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("tsdate").as(String.class),"2019-10-18"));
+                    predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("tsdate").as(String.class),"2019-10-25"));
                     predicates.add(criteriaBuilder.like(root.get("msid").as(String.class),"ms0070" + "%"));
 //                    predicates.add(criteriaBuilder.like(root.get("file_type").as(String.class),".bmp"));
                     return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -213,7 +213,7 @@ public class DaserviceServiceImpl implements DaserviceService {
 //            Example<Receipt> example = Example.of(receipt ,matcher);
             List<Receipt> all = farReceiptRepository.findAll(specification);
             List<Receipt> receipts = localReceiptRepository.saveAll(all);
-            System.out.println(all);
+//            System.out.println(all);
         }
 
         return false;

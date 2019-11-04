@@ -69,7 +69,6 @@ public class OcrcompareJpaApplicationTests {
     }
     @Test
     public void contextLoads7() {
-        ocrErrorReceiptRetryTask.pushFileComplete();
     }
 
     @Test
@@ -99,4 +98,8 @@ public class OcrcompareJpaApplicationTests {
         }
     }
 
+    @Test
+    public void contextLoads8() {
+        daserviceService.receiptSync();
+    }
 }
