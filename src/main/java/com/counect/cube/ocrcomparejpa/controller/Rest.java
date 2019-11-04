@@ -65,14 +65,12 @@ public class Rest {
 
     @RequestMapping("addReceiptAgain")
     public Boolean s(){
-        hdfsService.addFileByDateToHDFS("2019-10-18");
-        hdfsService.addFileByDateToHDFS("2019-10-19");
-        hdfsService.addFileByDateToHDFS("2019-10-20");
-        hdfsService.addFileByDateToHDFS("2019-10-21");
-        hdfsService.addFileByDateToHDFS("2019-10-22");
-        hdfsService.addFileByDateToHDFS("2019-10-23");
-        hdfsService.addFileByDateToHDFS("2019-10-24");
-        hdfsService.addFileByDateToHDFS("2019-10-25");
+        hdfsService.addFileByDateToHDFS("2019-10-14");
+        hdfsService.addFileByDateToHDFS("2019-10-15");
+        hdfsService.addFileByDateToHDFS("2019-10-16");
+        hdfsService.addFileByDateToHDFS("2019-10-17");
+        hdfsService.addFileByDateToHDFS("2019-10-13");
+        hdfsService.addFileByDateToHDFS("2019-10-12");
         return true;
     }
 
